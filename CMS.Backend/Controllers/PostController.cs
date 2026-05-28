@@ -1,9 +1,9 @@
 ﻿using CMS.Data;
 using CMS.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore; // BẮT BUỘC thêm dòng này để dùng được hàm Include
+using Microsoft.EntityFrameworkCore; // Hỗ trợ Eager Loading liên kết dữ liệu giữa các bảng
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CMS.Backend.Controllers
 {
@@ -16,47 +16,29 @@ namespace CMS.Backend.Controllers
             _context = context;
         }
 
-        // Action Index hỗ trợ lọc theo mã danh mục (id nhận từ URL dạng: /Post/Index/1)
         public IActionResult Index(int? id)
         {
-            // Khởi tạo câu lệnh truy vấn, nạp chồng (Join) sẵn bảng Category
-            var query = _context.Posts.Include(p => p.Category).AsQueryable();
-
-            // Lọc dữ liệu nếu người dùng có truyền ID danh mục cụ thể trên URL
+            var query = _context.Posts
+                .Include(p => p.Category)
+                .AsQueryable();
             if (id != null)
             {
                 query = query.Where(p => p.CategoryId == id);
             }
-
-            // Sắp xếp bài viết theo ngày tạo mới nhất lên đầu và chuyển thành List
             var posts = query.OrderByDescending(p => p.CreatedDate).ToList();
-
             return View(posts);
         }
-
-        // =================================================================
-        // CODE CẬP NHẬT CHỨC NĂNG XEM CHI TIẾT BÀI VIẾT (Details) Ở ĐÂY
-        // =================================================================
-        // Đường dẫn chạy thực tế trên trình duyệt: /Post/Details/5
-        // GET: Post/Details/5
         public IActionResult Details(int id)
         {
-            // 1. Truy vấn bài viết theo ID
-            // Sử dụng .Include(p => p.Category) để lấy kèm thông tin Danh mục (Join bảng)
             var post = _context.Posts
                 .Include(p => p.Category)
                 .FirstOrDefault(p => p.Id == id);
-
-            // 2. Kiểm tra nếu không tìm thấy bài viết (tránh lỗi màn hình trắng)
             if (post == null)
             {
                 return NotFound(); // Trả về trang lỗi 404
             }
-
-            // 3. Truyền dữ liệu sang View
             return View(post);
         }
-        // 1. Hàm hiển thị form tạo mới bài viết (GET)
         [HttpGet]
         public IActionResult Create()
         {
@@ -64,8 +46,6 @@ namespace CMS.Backend.Controllers
             ViewBag.CategoryList = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
-
-
 
         [HttpPost]
         public IActionResult Create(Post model, IFormFile uploadImage)
@@ -91,24 +71,18 @@ namespace CMS.Backend.Controllers
                 // 4. Lưu đường dẫn vào CSDL để sau này hiển thị
                 model.ImageUrl = "/uploads/" + fileName;
             }
+            else
+            {
+                model.ImageUrl = "/uploads/default.jpg";
+            }
+
+            if (model.CreatedDate == DateTime.MinValue)
+            {
+                model.CreatedDate = DateTime.Now;
+            }
 
             _context.Posts.Add(model);
             _context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        public IActionResult Delete(int id)
-        {
-            // 1. Tìm bài viết theo Id
-            var post = _context.Posts.Find(id);
-
-            if (post != null)
-            {
-                // 2. Xóa khỏi bộ nhớ tạm
-                _context.Posts.Remove(post);
-
-                // 3. Cập nhật xuống SQL Server
-                _context.SaveChanges();
-            }
             return RedirectToAction("Index");
         }
         // GET: Hiển thị form kèm dữ liệu cũ
@@ -159,8 +133,20 @@ namespace CMS.Backend.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+        public IActionResult Delete(int id)
+        {
+            // 1. Tìm bài viết theo Id
+            var post = _context.Posts.Find(id);
 
+            if (post != null)
+            {
+                // 2. Xóa khỏi bộ nhớ tạm
+                _context.Posts.Remove(post);
 
-
+                // 3. Cập nhật xuống SQL Server
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

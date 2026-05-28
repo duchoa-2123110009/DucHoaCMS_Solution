@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CMS.Data.Entities.Product>
+
+@{
+    Layout = "_LayoutAdmin";
+}
+<h2 class="text-primary">DANH SÁCH SẢN PHẨM (DỮ LIỆU MẪU)</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên tên sản phẩm</th>
+            <th>Mô tả</th>
+            <th>Giá</th>
+            <th>Số lượng kho</th>
+            <th>Ảnh</th>
+            <th>CategoryProductId</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@item.StockQuantity</td>
+                <td><img src="@item.ImageUrl" alt="Product Image" style="width: 100px; height: auto;"></td>
+                <td>@item.CategoryProductId</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,15 +1,14 @@
 ﻿@model IEnumerable<CMS.Data.Entities.Post>
+
 @{
     Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Quản lý bài viết";
 }
-
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="text-dark">DANH SÁCH BÀI VIẾT</h2>
-        <a asp-action="Create" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Thêm bài viết mới
-        </a>
-    </div>
+    <h2 class="mb-4 text-danger">DANH SÁCH BÀI VIẾT MỚI NHẤT</h2>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Thêm bài viết mới
+    </a>
     <div class="row">
         @foreach (var item in Model)
         {
@@ -34,8 +33,6 @@
                     </div>
                 </div>
             </div>
-
         }
-
     </div>
 </div>
