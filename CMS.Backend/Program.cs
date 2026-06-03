@@ -3,37 +3,60 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-// 1. Khai báo dịch vụ xác thực Cookie
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login"; // Đường dẫn nếu chưa đăng nhập
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Đường dẫn nếu vào trang không được phép
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
+// 1. Khai báo chính sách CORS
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAll", policy => {
+        // Cho phép mọi nguồn (Origin), mọi phương thức (GET, POST...), mọi tiêu đề (Header)
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
     });
 
-// Add services to the container.
+});
+
+
 builder.Services.AddControllersWithViews();
-// Đăng ký DbContext vào hệ thống
+
+// Swagger
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// 2. Kích hoạt chính sách CORS đã khai báo ở trên
+app.UseCors("AllowAll");
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",

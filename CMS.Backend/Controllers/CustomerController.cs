@@ -6,8 +6,12 @@
 using CMS.Data;
 using CMS.Data.Entities; // Thêm để nhận diện model Customer
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 using System;
 using System.Linq;
+
 
 namespace CMS.Backend.Controllers
 {

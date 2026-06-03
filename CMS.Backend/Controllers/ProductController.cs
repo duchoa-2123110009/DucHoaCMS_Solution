@@ -7,7 +7,8 @@ using CMS.Data;
 using CMS.Data.Entities; // Thêm để nhận diện Product và CategoryProduct
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore; // Hỗ trợ .Include()
+using Microsoft.EntityFrameworkCore; 
+// Hỗ trợ .Include()
 using System.IO;
 using System.Linq;
 
