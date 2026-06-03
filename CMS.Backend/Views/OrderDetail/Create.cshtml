@@ -1,0 +1,53 @@
+﻿@model CMS.Data.Entities.OrderDetail
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Thêm sản phẩm vào đơn hàng";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-box-seam"></i> THÊM SẢN PHẨM VÀO ĐƠN HÀNG</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Chọn Mã Đơn Hàng:</label>
+                        <select asp-for="OrderId" class="form-select" asp-items="ViewBag.OrderList" required>
+                            <option value="">-- Chọn đơn hàng --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Chọn Sản Phẩm:</label>
+                        <select asp-for="ProductId" class="form-select" asp-items="ViewBag.ProductList" required>
+                            <option value="">-- Chọn sản phẩm --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Số lượng đặt:</label>
+                        <input asp-for="Quantity" type="number" class="form-control" min="1" value="1" required />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Giá bán hiện tại (VNĐ):</label>
+                        <input asp-for="UnitPrice" type="number" class="form-control" min="0" placeholder="Nhập giá bán..." required />
+                    </div>
+                </div>
+
+                <hr />
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-plus-circle"></i> Thêm vào đơn hàng
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

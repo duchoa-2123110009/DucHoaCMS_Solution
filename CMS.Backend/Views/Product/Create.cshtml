@@ -1,0 +1,70 @@
+﻿@model CMS.Data.Entities.Product
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Thêm sản phẩm mới";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-box-seam"></i> THÊM SẢN PHẨM MỚI</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tên sản phẩm:</label>
+                            <input asp-for="Name" class="form-control" placeholder="Nhập tên sản phẩm..." required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mô tả chi tiết:</label>
+                            <textarea asp-for="Description" class="form-control" rows="10" placeholder="Nhập đặc điểm, thông số sản phẩm..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Danh mục sản phẩm:</label>
+                            <select asp-for="CategoryProductId" class="form-select" asp-items="ViewBag.CategoryList" required>
+                                <option value="">-- Chọn danh mục --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Giá bán (VNĐ):</label>
+                            <input asp-for="Price" type="number" class="form-control" placeholder="Ví dụ: 15000000" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tải ảnh sản phẩm:</label>
+                            <input type="file" name="uploadImage" class="form-control" accept="image/*" />
+                            <small class="text-muted">Định dạng chuẩn: .jpg, .png, .webp</small>
+                        </div>
+
+                        <hr />
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-cloud-arrow-up"></i> Lưu và Đăng bán
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Description'))
+            .catch(error => { console.error(error); });
+    </script>
+}

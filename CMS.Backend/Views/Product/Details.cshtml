@@ -1,0 +1,48 @@
+﻿@model CMS.Data.Entities.Product
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-5 mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Product" class="text-decoration-none">Danh sách sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chi tiết sản phẩm</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h1 class="display-4 fw-bold text-primary mb-3">@Model.Name</h1>
+
+            <div class="d-flex align-items-center gap-3 text-muted mb-4">
+                @if (Model.CategoryProduct != null)
+                {
+                    <span class="badge bg-info text-dark fs-6">@Model.CategoryProduct.Name</span>
+                }
+                <span class="text-danger fw-bold fs-5"><i class="bi bi-tags"></i> Giá bán: @Model.Price.ToString("N0") VNĐ</span>
+            </div>
+
+            <hr />
+
+            <div class="text-center mb-4">
+                <img src="@Model.ImageUrl" class="img-fluid rounded shadow" alt="@Model.Name" style="max-height: 400px; object-fit: contain;">
+            </div>
+
+            <div class="post-content fs-5 text-secondary lh-lg mb-5">
+                <h4 class="text-dark fw-bold border-bottom pb-2">Thông tin sản phẩm:</h4>
+                @Html.Raw(Model.Description)
+            </div>
+
+            <div class="mt-5 border-top pt-4 d-flex gap-2">
+                <a href="/Product" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Chỉnh sửa sản phẩm
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

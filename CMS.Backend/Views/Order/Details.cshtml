@@ -1,0 +1,70 @@
+﻿@model CMS.Data.Entities.Order
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Chi tiết đơn hàng #" + Model.Id;
+}
+
+<div class="container mt-5 mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Order" class="text-decoration-none">Danh sách đơn hàng</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chi tiết đơn</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="display-5 fw-bold text-primary mb-0">Đơn hàng #@Model.Id</h1>
+                <div>
+                    @if (Model.Status == 0)
+                    {
+                        <span class="badge bg-secondary fs-5">Chờ xử lý</span>
+                    }
+                    else if (Model.Status == 1)
+                    {
+
+                        <span class="badge bg-warning text-dark fs-5">Đang giao</span>
+                    }
+                    else if (Model.Status == 2)
+                    {
+
+                        <span class="badge bg-success fs-5">Đã hoàn thành</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-danger fs-5">Đã hủy</span>
+                    }
+                </div>
+            </div>
+
+            <div class="p-3 bg-light rounded shadow-sm border mb-4">
+                <div class="row fs-6">
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-person"></i> Khách hàng:</strong> @(Model.Customer != null ? Model.Customer.FullName : "N/A")
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <strong><i class="bi bi-calendar3"></i> Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                </div>
+            </div>
+
+            <div class="fs-5 text-secondary lh-lg mb-5">
+                <p class="fw-bold text-dark mb-1"><i class="bi bi-sticky text-info"></i> Ghi chú đơn hàng:</p>
+                <div class="p-3 bg-white border rounded text-dark">
+                    @(!string.IsNullOrEmpty(Model.Notes) ? Model.Notes : "Không có ghi chú nào cho đơn hàng này.")
+                </div>
+            </div>
+
+            <div class="mt-5 border-top pt-4 d-flex gap-2">
+                <a href="/Order" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Cập nhật đơn hàng
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

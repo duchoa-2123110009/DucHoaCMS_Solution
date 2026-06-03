@@ -5,13 +5,16 @@ using CMS.Data;                           // ApplicationDbContext (lớp kết n
 using CMS.Data.Entities;                  // ĐÃ THÊM: Để sửa lỗi không tìm thấy kiểu 'User'
 using Microsoft.AspNetCore.Mvc;          // Controller, IActionResult, View()
 using Microsoft.EntityFrameworkCore;     // ToListAsync() — truy vấn bất đồng bộ
-
+using Microsoft.AspNetCore.Authorization; // Cần thêm namespace này
 namespace CMS.Backend.Controllers;
 
 /// <summary>
 /// Controller xử lý trang quản lý người dùng (bảng Users).
 /// URL mặc định: /User hoặc /User/Index
 /// </summary>
+
+[Authorize(Roles = "Admin")] // Chỉ tài khoản có Role là Admin mới được phép vào
+
 public class UserController : Controller
 {
     private readonly ApplicationDbContext _context;

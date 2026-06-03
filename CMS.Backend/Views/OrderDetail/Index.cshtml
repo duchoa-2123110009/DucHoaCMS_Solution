@@ -1,28 +1,58 @@
 ﻿@model IEnumerable<CMS.Data.Entities.OrderDetail>
+
 @{
     Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Quản lý chi tiết đơn hàng";
 }
-<h2 class="text-primary">DANH SÁCH CHI TIẾT ĐƠN HÀNG (DỮ LIỆU MẪU)</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>OrderID</th>
-            <th>ProductId</th>
-            <th>Số lượng</th>
-            <th>UnitPrice</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container mt-4">
+    <h2 class="mb-4 text-danger">CHI TIẾT CÁC MỤC ĐƠN HÀNG</h2>
+    <a asp-action="Create" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i> Thêm sản phẩm vào đơn hàng
+    </a>
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.OrderId</td>
-                <td>@item.ProductId</td>
-                <td>@item.Quantity</td>
-                <td>@item.UnitPrice</td>
-            </tr>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="text-center bg-light py-4 border-bottom text-info">
+                        <i class="bi bi-box" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-dark">Mã ĐH: #@item.OrderId</span>
+                            <span class="badge bg-secondary">Mục lẻ: #@item.Id</span>
+                        </div>
+
+                        <h5 class="card-title text-primary fw-bold mb-2">
+                            Tên SP: @(item.Product != null ? item.Product.Name : "N/A")
+                        </h5>
+
+                        <p class="card-text mb-1 text-muted small">
+                            <i class="bi bi-hash"></i> Số lượng: <strong>@item.Quantity</strong>
+                        </p>
+                        <p class="card-text mb-2 text-muted small">
+                            <i class="bi bi-tag"></i> Đơn giá: @item.UnitPrice.ToString("N0") VNĐ
+                        </p>
+                        <p class="card-text text-danger fw-bold fs-6 border-top pt-2">
+                            Tổng: @((item.Quantity * item.UnitPrice).ToString("N0")) VNĐ
+                        </p>
+
+                        <div class="mt-auto pt-2 gap-1 d-flex justify-content-between">
+                            <a href="/OrderDetail/Details/@item.Id" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">
+                                Sửa
+                            </a>
+
+                            <a asp-action="Delete" asp-route-id="@item.Id"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi đơn hàng không?')">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

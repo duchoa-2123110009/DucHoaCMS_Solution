@@ -1,0 +1,49 @@
+﻿@model CMS.Data.Entities.Customer
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = Model.FullName;
+}
+
+<div class="container mt-5 mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Customer" class="text-decoration-none">Danh sách khách hàng</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chi tiết khách hàng</li>
+        </ol>
+    </nav>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h1 class="display-4 fw-bold text-primary mb-3">@Model.FullName</h1>
+
+            <div class="d-flex align-items-center gap-3 text-muted mb-4">
+                <span class="badge bg-info text-dark fs-6">Mã KH: #@Model.Id</span>
+                <span><i class="bi bi-envelope"></i> Email: @Model.Email</span>
+                <span><i class="bi bi-telephone"></i> SĐT: @Model.Phone</span>
+            </div>
+
+            <hr />
+
+            <div class="text-center mb-4 bg-light p-5 rounded shadow-sm border">
+                <i class="bi bi-person-badge text-secondary" style="font-size: 6rem;"></i>
+                <h3 class="mt-3 text-dark fw-bold">HỒ SƠ KHÁCH HÀNG</h3>
+            </div>
+
+            <div class="post-content fs-5 text-secondary lh-lg mb-5">
+                <p class="fw-bold text-dark mb-1"><i class="bi bi-geo-alt-fill text-danger"></i> Địa chỉ giao hàng / liên hệ:</p>
+                <div class="p-3 bg-white border rounded">
+                    @Model.Address
+                </div>
+            </div>
+
+            <div class="mt-5 border-top pt-4 d-flex gap-2">
+                <a href="/Customer" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                </a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> Chỉnh sửa thông tin
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

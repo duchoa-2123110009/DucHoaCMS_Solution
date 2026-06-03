@@ -5,7 +5,7 @@ using CMS.Data;
 using CMS.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authorization; // Cần thêm namespace này
 namespace CMS.Backend.Controllers;
 
 /// <summary>
@@ -13,6 +13,7 @@ namespace CMS.Backend.Controllers;
 /// Buổi 1: dùng List&lt;Category&gt; giả trong code.
 /// Buổi 2: gọi _context.Categories từ SQL Server.
 /// </summary>
+[Authorize] 
 public class CategoryController : Controller
 {
     private readonly ApplicationDbContext _context;

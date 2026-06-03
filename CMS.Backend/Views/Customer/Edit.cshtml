@@ -1,0 +1,54 @@
+﻿@model CMS.Data.Entities.Customer
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Chỉnh sửa khách hàng";
+}
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-header bg-white py-3">
+        <h5 class="text-dark fw-bold mb-0">
+            <i class="bi bi-pencil-square text-warning me-2"></i>CHỈNH SỬA THÔNG TIN KHÁCH HÀNG
+        </h5>
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="Edit" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <input type="hidden" asp-for="Password" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FullName" class="form-label fw-bold">Họ và tên</label>
+                    <input asp-for="FullName" class="form-control" placeholder="Nhập họ và tên..." required />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Email" class="form-label fw-bold">Địa chỉ Email</label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Nhập email..." required />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Phone" class="form-label fw-bold">Số điện thoại</label>
+                    <input asp-for="Phone" type="tel" class="form-control" placeholder="Nhập số điện thoại..." required />
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label asp-for="Address" class="form-label fw-bold">Địa chỉ</label>
+                    <textarea asp-for="Address" class="form-control" rows="4" placeholder="Nhập địa chỉ cụ thể..." required></textarea>
+                </div>
+            </div>
+
+            <hr />
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-warning px-4 fw-bold">
+                    <i class="bi bi-save me-1"></i> Cập nhật thông tin
+                </button>
+                <a asp-action="Index" class="btn btn-secondary px-4">
+                    Quay lại danh sách
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

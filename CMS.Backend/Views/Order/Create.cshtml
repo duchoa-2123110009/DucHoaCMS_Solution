@@ -1,0 +1,56 @@
+﻿@model CMS.Data.Entities.Order
+
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Tạo đơn hàng mới";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-cart-plus"></i> TẠO ĐƠN HÀNG MỚI</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Khách hàng đặt mua:</label>
+                        <select asp-for="CustomerId" class="form-select" asp-items="ViewBag.CustomerList" required>
+                            <option value="">-- Chọn khách hàng --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Trạng thái đơn hàng:</label>
+                        <select asp-for="Status" class="form-select" required>
+                            <option value="0">Chờ xử lý (Mới nhận)</option>
+                            <option value="1">Đang giao hàng</option>
+                            <option value="2">Đã hoàn thành</option>
+                            <option value="3">Đã hủy đơn</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">Ngày lập hóa đơn đơn:</label>
+                        <input asp-for="OrderDate" type="datetime-local" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-bold">Ghi chú từ khách hàng / nội bộ:</label>
+                        <textarea asp-for="Notes" class="form-control" rows="5" placeholder="Nhập yêu cầu giao hàng hoặc lý do đặc biệt..."></textarea>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Tạo đơn hàng
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

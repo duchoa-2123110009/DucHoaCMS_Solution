@@ -2,32 +2,52 @@
 
 @{
     Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Quản lý sản phẩm";
 }
-<h2 class="text-primary">DANH SÁCH SẢN PHẨM (DỮ LIỆU MẪU)</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tên tên sản phẩm</th>
-            <th>Mô tả</th>
-            <th>Giá</th>
-            <th>Số lượng kho</th>
-            <th>Ảnh</th>
-            <th>CategoryProductId</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container mt-4">
+    <h2 class="mb-4 text-danger">DANH SÁCH SẢN PHẨM KHO HÀNG</h2>
+    <a asp-action="Create" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i> Thêm sản phẩm bán mới
+    </a>
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Name</td>
-                <td>@item.Description</td>
-                <td>@item.Price</td>
-                <td>@item.StockQuantity</td>
-                <td><img src="@item.ImageUrl" alt="Product Image" style="width: 100px; height: auto;"></td>
-                <td>@item.CategoryProductId</td>
-            </tr>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="text-center p-3 bg-light border-bottom">
+                        <img src="@item.ImageUrl" class="card-img-top" alt="Product Image" style="height: 180px; object-fit: contain;">
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <span class="badge bg-info text-dark align-self-start mb-2">
+                            @(item.CategoryProduct != null ? item.CategoryProduct.Name : "Chưa phân loại")
+                        </span>
+
+                        <h5 class="card-title text-primary fw-bold text-truncate">@item.Name</h5>
+
+                        <p class="card-text fw-bold text-danger fs-5 mb-2">
+                            @item.Price.ToString("N0") VNĐ
+                        </p>
+
+                        <div class="card-text text-muted small text-truncate mb-3">
+                            @Html.Raw(item.Description)
+                        </div>
+
+                        <div class="mt-auto pt-2 border-top gap-1 d-flex justify-content-between">
+                            <a href="/Product/Details/@item.Id" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">
+                                Sửa
+                            </a>
+
+                            <a asp-action="Delete" asp-route-id="@item.Id"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Bạn chắc chắn có muốn gỡ sản phẩm này khỏi kệ hàng không?')">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

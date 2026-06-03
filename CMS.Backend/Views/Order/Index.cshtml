@@ -1,28 +1,75 @@
 ﻿@model IEnumerable<CMS.Data.Entities.Order>
+
 @{
     Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Quản lý đơn hàng";
 }
-<h2 class="text-primary">DANH SÁCH ĐƠN HÀNG (DỮ LIỆU MẪU)</h2>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Ngày tạo đơn</th>
-            <th>CustomerId</th>
-            <th>Trạng thái</th>
-            <th>Ghi chú</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container mt-4">
+    <h2 class="mb-4 text-danger">DANH SÁCH ĐƠN HÀNG HỆ THỐNG</h2>
+    <a asp-action="Create" class="btn btn-success mb-3">
+        <i class="bi bi-plus-circle"></i> Tạo đơn hàng thủ công
+    </a>
+    <div class="row">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.OrderDate</td>
-                <td>@item.CustomerId</td>
-                <td>@item.Status</td>
-                <td>@item.Notes</td>
-            </tr>
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="text-center bg-light py-4 border-bottom text-primary">
+                        <i class="bi bi-receipt-cutoff" style="font-size: 4rem;"></i>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-dark">Mã ĐH: #@item.Id</span>
+
+                            @if (item.Status == 0)
+                            {
+                                <span class="badge bg-secondary">Chờ xử lý</span>
+                            }
+                            else if (item.Status == 1)
+                            {
+
+                                <span class="badge bg-warning text-dark">Đang giao</span>
+                            }
+                            else if (item.Status == 2)
+                            {
+
+                                <span class="badge bg-success">Đã xong</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-danger">Đã hủy</span>
+                            }
+                        </div>
+
+                        <h5 class="card-title text-primary fw-bold mb-1">
+                            <i class="bi bi-user"></i> @(item.Customer != null ? item.Customer.FullName : "Ẩn danh")
+                        </h5>
+
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-clock"></i> Ngày: @item.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                        </p>
+
+                        <p class="card-text text-truncate text-secondary flex-grow-1" style="max-width: 100%;">
+                            <i class="bi bi-pencil-fill small"></i> @(string.IsNullOrEmpty(item.Notes) ? "Không có ghi chú" : item.Notes)
+                        </p>
+
+                        <div class="mt-3 pt-2 border-top gap-1 d-flex justify-content-between">
+                            <a href="/Order/Details/@item.Id" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">
+                                Sửa
+                            </a>
+
+                            <a asp-action="Delete" asp-route-id="@item.Id"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Bạn có thực sự chắc chắn muốn hủy/xóa hóa đơn này?')">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
