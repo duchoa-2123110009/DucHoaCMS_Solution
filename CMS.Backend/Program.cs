@@ -32,6 +32,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
+// ---- CẤU HÌNH CORS (THÊM VÀO TRƯỚC builder.Build()) ----
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3001") // Cho phép ReactJS ở port 3000 gọi tới
+              .AllowAnyHeader()                     // Cho phép mọi loại Header (Content-Type, Authorization...)
+              .AllowAnyMethod()                     // Cho phép mọi phương thức HTTP (GET, POST, PUT, DELETE)
+              .AllowCredentials();                  // Hỗ trợ truyền Cookie/Session nếu cần sau này
+    });
+});
 
 var app = builder.Build();
 
@@ -48,6 +59,12 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+
+// Kích hoạt CORS đúng vị trí này
+app.UseCors("AllowReactApp");
+
+app.UseAuthorization();
 
 app.UseRouting();
 // 2. Kích hoạt chính sách CORS đã khai báo ở trên
