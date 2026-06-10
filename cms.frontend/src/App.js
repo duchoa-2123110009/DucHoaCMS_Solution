@@ -1,7 +1,8 @@
 ﻿import React from 'react';
 import CategoryProductList from './components/CategoryProductList';
 import ProductList from './components/ProductList';
-import PostList from './components/PostList'// Nhớ thêm dòng import này
+import PostList from './components/PostList';// Nhớ thêm dòng import này
+import BlogCategoryList from './components/BlogCategoryList'; // 1. Import Component bài tập tự làm vào đây
 import './App.css'; // File chứa các style tùy biến riêng của dự án
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <div className="row">
                 <div className="col-md-4">
                     <CategoryProductList />
+                    <BlogCategoryList />
                 </div>
                 <div className="col-md-8">
                     <h4 className="mb-4 text-uppercase text-secondary font-weight-bold">Bộ sưu tập mới nhất</h4>
