@@ -4,7 +4,7 @@
 
 1. Mở Solution bằng Visual Studio
 2. Chọn Startup Project
-3. Nhấn F5 để chạy API
+3. dotnet run --launch-profile https
 
 ## FrontEnd
 
